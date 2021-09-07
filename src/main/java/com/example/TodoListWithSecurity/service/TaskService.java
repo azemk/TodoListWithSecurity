@@ -1,12 +1,13 @@
 package com.example.TodoListWithSecurity.service;
 
+import com.example.TodoListWithSecurity.dto.TaskDto;
 import com.example.TodoListWithSecurity.model.Tasks;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
-    public Tasks create(Tasks task);
-    public Tasks update (Tasks task);
-    public List<Tasks> getAll(String username);
-    void deleteById(Integer id );
+    Tasks create(TaskDto taskDto);
+    Tasks update (Long id, TaskDto taskDto);
+    TaskDto findByUser(String username);
+    void deleteById(Long id );
 }

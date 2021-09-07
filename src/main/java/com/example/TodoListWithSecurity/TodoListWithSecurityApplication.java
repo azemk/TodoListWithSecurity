@@ -17,9 +17,5 @@ public class TodoListWithSecurityApplication {
 
 	}
 
-	@Bean(name = "datasource")
-	public DataSource dataSource(){
-		return DataSourceBuilder.create().build();
-	}
 
 }

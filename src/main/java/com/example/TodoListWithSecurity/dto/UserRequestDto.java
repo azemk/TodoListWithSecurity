@@ -1,4 +1,6 @@
-package com.example.TodoListWithSecurity;
+package com.example.TodoListWithSecurity.dto;
+
+
 
 
 import lombok.*;
@@ -11,4 +13,5 @@ import lombok.*;
 public class UserRequestDto {
     private String username;
     private String password;
+    private String role;
 }
