@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <title>AllUsers</title>
+</head>
+<body>
+<div class="container" sec:authorize="isAuthenticated()">
+    <div class="row">
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID : </th>
+                    <th>USERNAME : </th>
+                    <th>PASSWORD : </th>
+                    <th>ACTIVE : </th>
+                    <th>ROLE ID : </th>
+                    <th>ROLE NAME : </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:block th:each="user :${usersList}">
+                    <td th:text = "${user.usersId}"></td>
+                    <td th:text = "${user.username}"></td>
+                    <td th:text = "${user.password}"></td>
+                    <td th:text = "${user.enabled}"></td>
+                    <th:block th:each = "role :${user.rolesList}">
+                        <td th:text="${role.rolesId}"></td>
+                        <td th:text="${role.name}"></td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

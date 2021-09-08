@@ -57,7 +57,7 @@ public class TaskServiceImpl  implements TaskService {
     @Override
     public void deleteById(Long id) {
         taskRepository.deleteById(id);
-        throw new CommonException("User successfully deleted!");
+        throw new CommonException("Task  successfully deleted!");
     }
 
     @Override

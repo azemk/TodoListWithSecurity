@@ -24,22 +24,21 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto create(UserRequestDto userRequestDto) {
-        Roles role  = rolesRepository.findRolesByName(userRequestDto.getRole());
+        Roles role  = rolesRepository.findRolesByName("USER");
         Users user = usersRepository.findUsersByUsername(userRequestDto.getUsername());
-            if(user != null){
-               throw new CommonException("User with this username already exists !");
-            }else{
-                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-                Users users = new Users();
-                users.setUsername(userRequestDto.getUsername());
-                users.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
-                users.setEnabled(true);
-                users.setRolesList(Collections.singletonList(role));
-                usersRepository.save(users);
-                UserResponseDto response = UserResponseDto.builder().username(users.getUsername()).password(users.getPassword()).isActive(users.getEnabled()).role(userRequestDto.getRole()).build();
-                return response;
-
-            }
+        if(user != null){
+            throw new CommonException("User with this username already exists !");
+        }else{
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            Users users = new Users();
+            users.setUsername(userRequestDto.getUsername());
+            users.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
+            users.setEnabled(true);
+            users.setRolesList(Collections.singletonList(role));
+            usersRepository.save(users);
+            UserResponseDto response = UserResponseDto.builder().username(users.getUsername()).password(users.getPassword()).isActive(users.getEnabled()).role(users.getRolesList().toString()).build();
+            return response;
+        }
 
     }
 
@@ -54,13 +53,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteByUsername(String username) {
+    public Users deleteByUsername(String username) {
         Users users = usersRepository.findUsersByUsername(username);
         if(users != null ){
             usersRepository.deleteById(users.getUsersId());
             throw new CommonException("User successfully deleted!");
         }
-       throw new CommonException("User not found!");
+        throw new CommonException("User not found!");
 
     }
 }
