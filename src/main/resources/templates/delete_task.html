@@ -1,0 +1,11 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form th:action="@{/deleteTask}" th:method="post">
+    <input type="text" th:name="id">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

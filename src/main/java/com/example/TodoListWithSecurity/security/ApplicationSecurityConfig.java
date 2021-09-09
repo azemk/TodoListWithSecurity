@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -45,21 +46,31 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http
-              .authorizeRequests()
-              .antMatchers("/hello","/","/home").permitAll()
-              .antMatchers(HttpMethod.GET,"/getUsers").hasAuthority("ADMIN")
-              .antMatchers("/register").permitAll()
-              .antMatchers("/create").permitAll()
-              .antMatchers(HttpMethod.POST,"/createTask").hasAnyAuthority("USER","ADMIN")
-              .antMatchers(HttpMethod.DELETE,"/delete_user.html").hasAuthority("ADMIN")
-              .antMatchers(HttpMethod.POST,"/updateTask").hasAnyAuthority("USER","ADMIN")
-              .antMatchers(HttpMethod.DELETE,"/deleteTask").hasAnyAuthority("USER","ADMIN")
-              .antMatchers(HttpMethod.GET,"/getTasks").hasAnyAuthority("USER","ADMIN")
-              .anyRequest()
-              .authenticated()
-              .and().httpBasic()
-              .and().csrf().disable();
+        http
+                .authorizeRequests()
+                .antMatchers("/hello","/","/home").permitAll()
+                .antMatchers(HttpMethod.GET,"/getUsers").hasAuthority("ADMIN")
+                .antMatchers("/register").permitAll()
+                .antMatchers("/create").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/createTask").hasAnyAuthority("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/delete_user").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/updateTask").hasAnyAuthority("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/deleteTask").hasAnyAuthority("USER","ADMIN")
+                .antMatchers(HttpMethod.GET,"/getTasks").hasAnyAuthority("USER","ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .and()
+                .httpBasic()
+                .and().csrf().disable();
 
     }
 

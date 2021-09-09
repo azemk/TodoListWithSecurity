@@ -1,0 +1,9 @@
+<!Doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form th:action = "@{/getTasks}" method="post" >
+    <input type = "text" th:name="username">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

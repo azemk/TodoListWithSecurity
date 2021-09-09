@@ -5,20 +5,23 @@ import com.example.TodoListWithSecurity.model.Users;
 import com.example.TodoListWithSecurity.repository.UserRepository;
 import com.example.TodoListWithSecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import org.springframework.http.HttpMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.http.HttpMethod.DELETE;
+
 
 
 @Slf4j
@@ -29,7 +32,15 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    BCryptPasswordEncoder encoder(){
+        return new BCryptPasswordEncoder();
+    }
 
+
+    @PostMapping("/login")
+    public String login(String username , String password) {
+        return "index";
+    }
 
     @GetMapping("/register")
     public String showCreateUserForm(Model model){
@@ -41,12 +52,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String submitForm(@ModelAttribute ("newUser") UserRequestDto userRequestDto ,BindingResult bindingResult ){
+    public String submitForm(@ModelAttribute ("newUser") UserRequestDto userRequestDto ,BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "register_form";
         }
         userService.create(userRequestDto);
-        return "viewpage";
+        return "home_page";
     }
 
 
@@ -66,10 +77,11 @@ public class UserController {
         return "delete_user";
     }
 
+    @NotNull
     @PostMapping ("/deleteUser")
-    private String deleteUser( Model model , @RequestParam String username , Users users){
-        model.addAttribute("users",users);
+    private String deleteUser(ModelMap model , String username ){
         userService.deleteByUsername(username);
-        return "delete_user";
+        return "delete";
     }
+
 }

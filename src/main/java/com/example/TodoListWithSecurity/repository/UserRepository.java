@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface UserRepository extends JpaRepository<Users,Long> {
      Users findUsersByUsername(String username);
+     Users findUsersByPassword(String password);
+     Users findUsersByUsernameAndPassword(String username , String password);
 }

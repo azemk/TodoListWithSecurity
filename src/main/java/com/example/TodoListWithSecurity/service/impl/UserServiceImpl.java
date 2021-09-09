@@ -53,13 +53,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Users deleteByUsername(String username) {
+    public void deleteByUsername(String username) {
         Users users = usersRepository.findUsersByUsername(username);
         if(users != null ){
             usersRepository.deleteById(users.getUsersId());
-            throw new CommonException("User successfully deleted!");
+        }else {
+            throw new CommonException("User not found!");
         }
-        throw new CommonException("User not found!");
-
     }
 }

@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl  implements TaskService {
@@ -53,20 +54,22 @@ public class TaskServiceImpl  implements TaskService {
     }
 
 
-
     @Override
     public void deleteById(Long id) {
-        taskRepository.deleteById(id);
-        throw new CommonException("Task  successfully deleted!");
-    }
+        Tasks tasks = taskRepository.findTasksById(id);
+        if(tasks!=null){
+            taskRepository.deleteById(id);
+        }else
+            throw new CommonException("Task not found!");
+        }
+
 
     @Override
-    public TaskDto findByUser(String username) {
-        Tasks tasks = taskRepository.findTasksByUsers_Username(username);
+    public List<TaskDto> findByUser(String username) {
+        List<Tasks> tasks = taskRepository.findByUsers_Username(username);
         if(tasks!= null){
-            TaskDto response = TaskDto.builder().taskName(tasks.getTask_name()).description(tasks.getDescription())
-                    .username(username).build();
-            return response;
+            List<TaskDto> taskDto = tasks.stream().map(tasks1 -> new TaskDto(tasks1.getTask_name(), tasks1.getDescription(), tasks1.getUsers().getUsername())).collect(Collectors.toList());
+            return taskDto;
         }else return null;
     }
 }
