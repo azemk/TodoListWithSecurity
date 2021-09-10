@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<form th:action="@{/createTask}"  th:object="${task}"  method="post">
+    <label>Task Name : </label>
+    <input type ="text" th:field = "*{taskName}"><br><br>
+    <label>Description : </label>
+    <input type = "text" th:field = "*{description}"><br><br>
+    <label>Username : </label>
+    <input type = "text" th:field = "*{username}"><br><br>
+    <button type = "submit">Submit</button>
+    <button type ="reset">Reset</button>
+</form>
+<div align="center">
+    <a th:href="@{/home_page}">Back to Home Page</a>
+</div>
+</body>
+</html>

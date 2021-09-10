@@ -17,16 +17,21 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
+    @GetMapping("/myTasks")
+    public String myTasks(){
+        return "mytasks";
+    }
+
     @GetMapping("/createTask")
     public String showTasksForm(Model model) {
         TaskDto taskDto = new TaskDto();
         model.addAttribute("task",taskDto);
-        return "task";
+        return "create_task";
     }
     @PostMapping("/createTask")
     public String createTask(@ModelAttribute("task") TaskDto taskDto){
         taskService.create(taskDto);
-        return "task";
+        return "create_task";
     }
 
     @GetMapping("/deleteTask")
@@ -37,14 +42,14 @@ public class TaskController {
     @PostMapping("/deleteTask")
     public String deleteById(Long id ){
         taskService.deleteById(id);
-        return "delete";
+        return "delete_viewpage";
     }
 
     @GetMapping("/getTasks")
     public String getTasks(Model model ){
         TaskDto taskDto = new TaskDto();
         model.addAttribute("task" , taskDto);
-        return "all_tasks";
+        return "find_tasks";
     }
 
 
@@ -52,7 +57,7 @@ public class TaskController {
     public String getTasksForm(@NotNull Model model , String username){
         List<TaskDto> taskDto = taskService.findByUser(username);
         model.addAttribute("taskList",taskDto);
-        return "task_list";
+        return "tasks_list";
     }
 
 

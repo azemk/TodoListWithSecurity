@@ -1,7 +1,17 @@
 <!Doctype html>
-<html>
-<head></head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+</head>
 <body>
-<a href = "/getUsers">GET USERS</a>
+
+<div sec:authorize="hasAuthority('ADMIN')" ><a href = "/getUsers">GET USERS</a></div>
+<div sec:authorize="hasAuthority('ADMIN')"><a href= "/deleteUser">DELETE USERS</a></div>
+<div sec:authorize="isAuthenticated()"><a href="/myTasks">MY TASKS</a> </div>
+<div sec:authorize="isAuthenticated()"><a href="/logout">LOG OUT</a></div>
+
+
 </body>
 </html>

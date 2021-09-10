@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action = "@{/getTasks}" method="post" >
+    <label>Search By Username : </label>
     <input type = "text" th:name="username">
     <button type="submit">Submit</button>
 </form>

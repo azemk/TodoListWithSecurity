@@ -4,8 +4,12 @@
 </head>
 <body>
 <form th:action="@{/deleteTask}" th:method="post">
+    <label>Input ID of your task , please</label><br>
     <input type="text" th:name="id">
-    <button type="submit">Submit</button>
+    <button type="submit" th:size="30px">Submit</button>
 </form>
+<div align="center">
+    <a th:href="@{/home_page}">Back to Home Page</a>
+</div>
 </body>
 </html>

@@ -26,7 +26,7 @@ public class Tasks {
 
     private String description;
 
-    @ManyToOne(cascade = CascadeType.DETACH , fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
     @JoinColumn(name = "users")
     private Users users;
 

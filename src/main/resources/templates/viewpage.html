@@ -1,5 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+</head>
 <body>
-<p>You successfully entered</p>
+<div class="alert alert-success" role="alert">
+    You have been successfully signed up !
+</div>
+<div align="center">
+    <a th:href="@{/}">Back to Home Page</a>
+</div>
 </body>
 </html>

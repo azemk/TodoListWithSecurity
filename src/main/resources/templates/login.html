@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login page</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
 </head>
 <body>
-<h1>Login page</h1>
+<h3 class="param">Login page</h3>
 <form th:action="@{/login}" method="post">
     <label for="username">Username</label>:
     <input type="text" id="username" name="username" autofocus="autofocus" th:name="username"/> <br />
@@ -12,5 +13,8 @@
     <input type="password" id="password" name="password" th:name="password"/> <br />
     <input type="submit" value="Log in" />
 </form>
+<div align="center">
+    <a th:href="@{/}">Back to Home Page</a>
+</div>
 </body>
 </html>

@@ -38,6 +38,9 @@ public class Users {
     inverseJoinColumns = {@JoinColumn(name="roles_id")})
     private List<Roles> rolesList;
 
+    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "users")
+    private List<Tasks> tasks;
+
 
     @JsonCreator
     public Users (@JsonProperty("usersId") Long usersId ) {

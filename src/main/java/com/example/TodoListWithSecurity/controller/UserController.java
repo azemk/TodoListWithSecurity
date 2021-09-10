@@ -15,9 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,9 +37,25 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public String login(String username , String password) {
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @GetMapping("/index")
+    public String index(){
         return "index";
+    }
+
+    @GetMapping("/home_page")
+    public String home(){
+        return "home_page";
+    }
+
+
+    @GetMapping("/admin")
+    public String admin(){
+        return "admin";
     }
 
     @GetMapping("/register")
@@ -52,12 +68,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String submitForm(@ModelAttribute ("newUser") UserRequestDto userRequestDto ,BindingResult bindingResult){
+    public String submitForm(@ModelAttribute ("newUser") UserRequestDto userRequestDto ,BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "register_form";
         }
         userService.create(userRequestDto);
-        return "home_page";
+        return "viewpage";
     }
 
 
@@ -70,7 +87,7 @@ public class UserController {
     public String findAll(Model model){
         Iterable<Users> usersIterable = userService.findAll();
         model.addAttribute("usersList",usersIterable);
-        return "users";
+        return "users_list";
     }
     @GetMapping("/deleteUser")
     private String showDeleteForm(){
@@ -81,7 +98,7 @@ public class UserController {
     @PostMapping ("/deleteUser")
     private String deleteUser(ModelMap model , String username ){
         userService.deleteByUsername(username);
-        return "delete";
+        return "delete_viewpage";
     }
 
 }
