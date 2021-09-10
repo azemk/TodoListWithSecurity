@@ -32,45 +32,45 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    BCryptPasswordEncoder encoder(){
+    BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping("/index")
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @GetMapping("/home_page")
-    public String home(){
+    public String home() {
         return "home_page";
     }
 
 
     @GetMapping("/admin")
-    public String admin(){
+    public String admin() {
         return "admin";
     }
 
     @GetMapping("/register")
-    public String showCreateUserForm(Model model){
+    public String showCreateUserForm(Model model) {
         UserRequestDto userRequestDto = new UserRequestDto();
-        model.addAttribute("newUser",userRequestDto);
-        List<String> roles = Arrays.asList("USER","ADMIN");
-        model.addAttribute("roles",roles);
+        model.addAttribute("user", userRequestDto);
+        List<String> roles = Arrays.asList("USER", "ADMIN");
+        model.addAttribute("roles", roles);
         return "register_form";
     }
 
     @PostMapping("/register")
-    public String submitForm(@ModelAttribute ("newUser") UserRequestDto userRequestDto ,BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
+    public String submitForm(@ModelAttribute("newUser") UserRequestDto userRequestDto, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             return "register_form";
         }
         userService.create(userRequestDto);
@@ -78,10 +78,8 @@ public class UserController {
     }
 
 
-    @PostMapping("/update")
-    public Users updateUser(@RequestBody Users users){
-        return userService.update(users);
-    }
+
+
 
     @GetMapping("/getUsers")
     public String findAll(Model model){
@@ -94,9 +92,8 @@ public class UserController {
         return "delete_user";
     }
 
-    @NotNull
     @PostMapping ("/deleteUser")
-    private String deleteUser(ModelMap model , String username ){
+    private String deleteUser( String username ){
         userService.deleteByUsername(username);
         return "delete_viewpage";
     }

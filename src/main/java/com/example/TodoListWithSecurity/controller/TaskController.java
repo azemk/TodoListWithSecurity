@@ -2,12 +2,14 @@ package com.example.TodoListWithSecurity.controller;
 
 import com.example.TodoListWithSecurity.dto.TaskDto;
 import com.example.TodoListWithSecurity.model.Tasks;
+import com.example.TodoListWithSecurity.repository.TaskRepository;
 import com.example.TodoListWithSecurity.service.TaskService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import java.util.List;
 public class TaskController {
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    TaskRepository taskRepository;
 
     @GetMapping("/myTasks")
     public String myTasks(){
@@ -53,24 +58,32 @@ public class TaskController {
     }
 
 
+    @GetMapping("/update/{id}")
+    public ModelAndView updateForm(@PathVariable("id")  Long id ){
+        ModelAndView modelAndView = new ModelAndView("update");
+        Tasks tasks = taskRepository.findTasksById(id);
+        modelAndView.addObject("tasks",tasks);
+        return modelAndView;
+
+    }
+    @RequestMapping("/save")
+    public String save(@ModelAttribute("tasks") Tasks tasks){
+        return taskService.
+    }
+
+
     @PostMapping ("/getTasks")
     public String getTasksForm(@NotNull Model model , String username){
-        List<TaskDto> taskDto = taskService.findByUser(username);
-        model.addAttribute("taskList",taskDto);
+        List<Tasks> tasks = taskService.findByUser(username);
+        model.addAttribute("taskList",tasks);
         return "tasks_list";
     }
 
 
-
     @PostMapping("/updateTask")
-    public Tasks update(@RequestParam Long id ,@RequestBody TaskDto taskDto){
+    public Tasks update(@PathVariable Long id ,@RequestBody TaskDto taskDto){
         return taskService.update(id,taskDto);
     }
-
-
-
-
-
 
 
 

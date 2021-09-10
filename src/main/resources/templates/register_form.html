@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 </head>
 <body>
 <h3>Create new user : </h3>
-<form method="POST" th:action="@{/register}" th:object="${newUser}">
+<form method="POST" th:action="@{/register}" th:object="${user}">
     <label>Username : </label>
     <input type="text" class="form-control" placeholder="Username" required th:field="*{username}"/>
     <label>Password : </label>

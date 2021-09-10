@@ -30,6 +30,7 @@
                         <td th:text="${role.rolesId}"></td>
                         <td th:text="${role.name}"></td>
                     </th:block>
+                    <td sec:authorize="hasAuthority('ADMIN')">UPDATE USER</td>
                 </tr>
                 </tbody>
             </table>

@@ -8,10 +8,13 @@ import com.example.TodoListWithSecurity.repository.TaskRepository;
 import com.example.TodoListWithSecurity.repository.UserRepository;
 import com.example.TodoListWithSecurity.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +25,6 @@ public class TaskServiceImpl  implements TaskService {
     UserRepository userRepository;
     @Override
     public Tasks create(TaskDto taskDto) {
-
         Users user = userRepository.findUsersByUsername(taskDto.getUsername());
         Tasks tasks = new Tasks();
         tasks.setTask_name(taskDto.getTaskName());
@@ -31,9 +33,8 @@ public class TaskServiceImpl  implements TaskService {
         tasks.setUsers(user);
         taskRepository.save(tasks);
         return tasks;
-
-
     }
+
 
     @Override
     public Tasks update(Long id,TaskDto taskDto) {
@@ -41,7 +42,6 @@ public class TaskServiceImpl  implements TaskService {
         Users user = userRepository.findUsersByUsername(taskDto.getUsername());
         if(tasks != null){
             Tasks updateTask = new Tasks();
-            updateTask.setId(id);
             updateTask.setTask_name(taskDto.getTaskName());
             updateTask.setDescription(taskDto.getDescription());
             updateTask.setDateTime(LocalDateTime.now());
@@ -50,26 +50,28 @@ public class TaskServiceImpl  implements TaskService {
             return updateTask;
         }
         else return null;
-
     }
 
 
     @Override
     public void deleteById(Long id) {
-        Tasks tasks = taskRepository.findTasksById(id);
-        if(tasks!=null){
-            taskRepository.deleteById(id);
-        }else
+        Optional<Tasks> tasks = Optional.ofNullable(taskRepository.findTasksById(id));
+        if(tasks==null){
             throw new CommonException("Task not found!");
+        }else
+           taskRepository.deleteById(id);
         }
 
 
     @Override
-    public List<TaskDto> findByUser(String username) {
+    public List<Tasks> findByUser(String username) {
         List<Tasks> tasks = taskRepository.findByUsers_Username(username);
-        if(tasks!= null){
-            List<TaskDto> taskDto = tasks.stream().map(tasks1 -> new TaskDto(tasks1.getTask_name(), tasks1.getDescription(), tasks1.getUsers().getUsername())).collect(Collectors.toList());
-            return taskDto;
-        }else return null;
+        if(tasks.size()>0){
+          return tasks;
+        }else {
+            throw new CommonException("This user has no any tasks!");
+        }
     }
+
+
 }

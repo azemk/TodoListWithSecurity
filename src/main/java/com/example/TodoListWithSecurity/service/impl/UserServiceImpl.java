@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
@@ -36,16 +37,13 @@ public class UserServiceImpl implements UserService{
             users.setEnabled(true);
             users.setRolesList(Collections.singletonList(role));
             usersRepository.save(users);
-            UserResponseDto response = UserResponseDto.builder().username(users.getUsername()).password(users.getPassword()).isActive(users.getEnabled()).role(users.getRolesList().toString()).build();
+            UserResponseDto response = UserResponseDto.builder().username(users.getUsername()).password(users.getPassword())
+                    .isActive(users.getEnabled()).role(users.getRolesList().toString()).build();
             return response;
         }
 
     }
 
-    @Override
-    public Users update(Users users) {
-        return usersRepository.save(users);
-    }
 
     @Override
     public List<Users> findAll() {
@@ -55,10 +53,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteByUsername(String username) {
         Users users = usersRepository.findUsersByUsername(username);
-        if(users != null ){
-            usersRepository.deleteById(users.getUsersId());
-        }else {
+        if(users == null ){
             throw new CommonException("User not found!");
+
+        }else {
+            usersRepository.deleteById(users.getUsersId());
         }
     }
 }

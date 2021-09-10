@@ -4,14 +4,10 @@ package com.example.TodoListWithSecurity.dto;
 
 
 import lombok.*;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.springframework.lang.NonNullFields;
-
 
 import javax.persistence.Column;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
