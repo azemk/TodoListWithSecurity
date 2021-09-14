@@ -2,7 +2,7 @@ package com.example.TodoListWithSecurity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -42,7 +42,5 @@ public class Tasks {
         users.setUsersId(usersId);
         users.setUsername(users.getUsername());
     }
-
-
 
 }

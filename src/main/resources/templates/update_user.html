@@ -1,11 +1,27 @@
 <!Doctype html>
-<html>
-<head></head>
-<body>
-<form th:action="@{/updateUser/{id}(id=${user.usersId})}" th:method="post" th:object="${user}">
-    <input type="text" th:field="${user.username}">
-    <input type="text" th:field="${user.password}">
-    <button type="submit">Submit</button>
-</form>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="main_layout :: head"></head>
+<body style="background-color: darkcyan">
+<div th:insert="main_layout :: navbar"></div>
+<div class="container" sec:authorize="isAuthenticated()">
+    <form action = "#" th:action="@{/updateUser/{id}(id=${user.usersId})}" th:method="post" th:object="${user}">
+        <div class="container">
+            <div  style="padding-top: 40px; margin-right: 600px; justify-content: center">
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Username" required th:field = "${user.username}" >
+                    <label for="floatingInput">Task Name :</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control"  id="floatingPassword" placeholder="Password" required th:field = "${user.password}">
+                    <label for="floatingPassword">Description :</label>
+                </div>
+                <button type="submit" class="btn btn-success" style="margin-top: 40px;">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
 </body>
 </html>

@@ -71,9 +71,7 @@ public class TaskServiceImpl  implements TaskService {
         List<Tasks> tasks = taskRepository.findByUsers_Username(username);
         if(tasks.size()>0){
             return tasks;
-        }else {
-            throw new CommonException("This user has no any tasks!");
-        }
+        }else return null;
     }
 
 

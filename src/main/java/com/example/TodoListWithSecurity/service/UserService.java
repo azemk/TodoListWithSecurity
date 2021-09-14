@@ -9,7 +9,5 @@ import java.util.List;
 
 public interface UserService {
     UserResponseDto create (UserRequestDto userRequestDto);
-    Users update(Users users);
     List<Users> findAll();
-    void deleteByUsername(String username);
 }

@@ -1,26 +1,23 @@
 package com.example.TodoListWithSecurity.controller;
 
 import com.example.TodoListWithSecurity.dto.UserRequestDto;
-import com.example.TodoListWithSecurity.model.Roles;
+import com.example.TodoListWithSecurity.exceptions.CommonException;
+
 import com.example.TodoListWithSecurity.model.Users;
 import com.example.TodoListWithSecurity.repository.RolesRepository;
 import com.example.TodoListWithSecurity.repository.UserRepository;
 import com.example.TodoListWithSecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import javax.jws.WebParam;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +26,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@EnableWebMvc
 public class UserController {
     @Autowired
     UserService userService;
@@ -58,12 +56,6 @@ public class UserController {
         return "home_page";
     }
 
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
-
     @GetMapping("/register")
     public String showCreateUserForm(Model model) {
         UserRequestDto userRequestDto = new UserRequestDto();
@@ -90,14 +82,11 @@ public class UserController {
         model.addAttribute("usersList",usersIterable);
         return "users_list";
     }
-    @GetMapping("/deleteUser")
-    private String showDeleteForm(){
-        return "delete_user";
-    }
 
-    @PostMapping ("/deleteUser")
-    private String deleteUser( String username ){
-        userService.deleteByUsername(username);
+
+    @RequestMapping  ("/deleteUser/{id}")
+    private String deleteUser( @PathVariable ("id") Long id ){
+        userRepository.deleteById(id);
         return "delete_viewpage";
     }
 
@@ -110,20 +99,26 @@ public class UserController {
     }
 
     @PostMapping("/updateUser/{id}")
-    public String update(@ModelAttribute("user") Users users , @PathVariable("id") Long id  ){
+    public String update(@ModelAttribute("user") Users users , @PathVariable("id") Long id ,Model model  ){
         try{
-            users.setUsersId(id);
-            userService.update(users);
-            return "update_user";
+            Users updated = userRepository.findUsersByUsersId(id);
+            if(updated!=null){
+                updated.setUsername(users.getUsername());
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+                updated.setPassword(encoder.encode(users.getPassword()));
+                updated.setEnabled(true);
+                updated.setRolesList(rolesRepository.findRolesByName("USER"));
+                userRepository.save(updated);
+                return "update_user";
+            }else{
+                throw new CommonException("User with this id not found!");
+            }
         }catch (Exception ex){
-            return ex.getMessage();
+           String message = ex.getMessage() + ex.getCause();
+           model.addAttribute("error" , message);
+           return "error";
         }
 
-
     }
-
-
-
-
 
 }

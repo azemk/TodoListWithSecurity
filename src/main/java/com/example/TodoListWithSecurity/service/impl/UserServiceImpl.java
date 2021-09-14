@@ -62,20 +62,4 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    @Override
-    public Users update(Users users) {
-        Roles role  = rolesRepository.findRoleByName("USER");
-        Users updateUser = usersRepository.findUsersByUsersId(users.getUsersId());
-        if(updateUser!=null) {
-            updateUser.setUsername(users.getUsername());
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            updateUser.setPassword(encoder.encode(users.getPassword()));
-            updateUser.setEnabled(true);
-            updateUser.setRolesList(Collections.singletonList(role));
-            usersRepository.save(updateUser);
-            return updateUser;
-        }else{
-            throw new CommonException("User does not exist!");
-        }
-    }
 }

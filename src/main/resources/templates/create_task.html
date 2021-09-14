@@ -3,23 +3,24 @@
 <head th:insert="main_layout :: head"></head>
 <body style="background-color: darkcyan">
 <div th:insert="main_layout :: navbar"></div>
-
-
-<form th:action="@{/createTask}"  th:object="${newTask}"  method="post">
-    <div class="container">
-        <div  style="padding-top: 40px; margin-right: 600px; justify-content: center">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Task Name" required th:field = "*{task_name}" >
-                <label for="floatingInput">Task Name :</label>
+<div>
+    <form th:action="@{/createTask}"  th:object="${newTask}"  method="post">
+        <div class="container">
+            <div  style="padding-top: 40px; margin-right: 600px; justify-content: center">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Task Name" required th:field = "${newTask.task_name}" >
+                    <label for="floatingInput">Task Name :</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingPassword" placeholder="Description" required th:field = "${newTask.description}">
+                    <label for="floatingPassword">Description :</label>
+                </div>
+                <button type="submit" class="btn btn-success" style="margin-top: 40px;">Submit</button>
             </div>
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingPassword" placeholder="Description" required th:field = "*{description}">
-                <label for="floatingPassword">Description :</label>
-            </div>
-            <button type="submit" class="btn btn-success" style="margin-top: 40px;">Success</button>
         </div>
-    </div>
-</form>
+    </form>
+
+</div>
 
 </body>
 </html>

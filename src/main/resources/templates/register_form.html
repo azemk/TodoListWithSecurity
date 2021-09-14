@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
-</head>
+<head th:insert="main_layout :: head"></head>
 <body style="background-color: darkcyan">
-<h3 align="center" style="padding-right: 500px;color:white ; font-family: 'DejaVu Math TeX Gyre';font-size: 22px;font-weight: bold"> Create new user : </h3>
+<h3 align="center" style="padding-right: 500px;color:white ; font-family: 'DejaVu Math TeX Gyre';font-size: 22px;font-weight: bold"> Sign up : </h3>
 <div class="container" >
     <div class = "col-md-6 .col-md-offset-3">
         <form method="POST" th:action="@{/register}" th:object="${user}">
@@ -23,7 +20,7 @@
 
 
 <div align="center">
-    <a th:href="@{/}" style="padding-right: 500px; color:white;font-family: 'DejaVu Math TeX Gyre';font-size: 14px;">Back to Home Page</a>
+    <a th:href="@{/createTask}" style="padding-right: 500px; color:white;font-family: 'DejaVu Math TeX Gyre';font-size: 14px;">Create Account</a>
 </div>
 </body>
 </html>

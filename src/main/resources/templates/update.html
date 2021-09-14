@@ -1,12 +1,23 @@
 <!Doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head></head>
-<body>
+<head th:insert="main_layout :: head"></head>
+<body style="background-color: darkcyan">
+<div th:insert="main_layout :: navbar"></div>
+
 <form action="#" method="post" th:action="@{/update/{id}(id=${updateTask.id})}" th:object="${updateTask}">
-    <input type ="text" th:field="*{task_name}">
-    <input type="text" th:field="*{description}">
-    <input type="text" th:field="*{users.username}">
-    <button type="submit">Submit</button>
+    <div class="container">
+        <div  style="padding-top: 40px; margin-right: 600px; justify-content: center">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Task Name" required th:field = "${updateTask.task_name}" >
+                <label for="floatingInput">Task Name :</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingPassword" placeholder="Description" required th:field = "${updateTask.description}">
+                <label for="floatingPassword">Description :</label>
+            </div>
+            <button type="submit" class="btn btn-success" style="margin-top: 40px;">Submit</button>
+        </div>
+    </div>
 </form>
 
 
