@@ -7,6 +7,7 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,14 +33,15 @@ public class Users {
 
     private Boolean enabled;
 
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER )
+    @ManyToMany(cascade = {CascadeType.DETACH , CascadeType.PERSIST,
+            CascadeType.MERGE }, fetch = FetchType.EAGER )
     @JoinTable(name = "user_roles",
     joinColumns = {@JoinColumn(name="users_id")},
     inverseJoinColumns = {@JoinColumn(name="roles_id")})
     private List<Roles> rolesList;
 
     @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "users")
-    private List<Tasks> tasks;
+    private List<Tasks> tasks = new ArrayList<>();
 
 
     @JsonCreator

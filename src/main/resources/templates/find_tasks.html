@@ -1,14 +1,14 @@
 <!Doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
-</head>
+<div th:insert="main_layout :: head"></div>
 <body>
+<div th:insert="main_layout :: navbar"></div>
+<a href="/createTask">CREATE TASK</a>
 <form th:action = "@{/getTasks}" method="post" >
     <label>Search By Username : </label>
-    <input type = "text" th:name="username">
+    <input type = "text" th:name="name">
     <button type="submit">Submit</button>
 </form>
+
 </body>
 </html>

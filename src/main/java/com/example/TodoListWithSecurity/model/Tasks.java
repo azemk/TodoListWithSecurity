@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,14 +22,18 @@ public class Tasks {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Size(min = 5)
     private String task_name;
 
+    @NotBlank
+    @Size(min=5)
     private LocalDateTime dateTime;
 
     private String description;
 
-    @ManyToOne(cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
-    @JoinColumn(name = "users")
+    @ManyToOne
+    @JoinColumn(name="users")
     private Users users;
 
     @JsonProperty("users")

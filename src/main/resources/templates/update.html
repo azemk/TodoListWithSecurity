@@ -1,5 +1,14 @@
 <!Doctype html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head></head>
-<body></body>
+<body>
+<form action="#" method="post" th:action="@{/update/{id}(id=${updateTask.id})}" th:object="${updateTask}">
+    <input type ="text" th:field="*{task_name}">
+    <input type="text" th:field="*{description}">
+    <input type="text" th:field="*{users.username}">
+    <button type="submit">Submit</button>
+</form>
+
+
+</body>
 </html>

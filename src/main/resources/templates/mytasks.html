@@ -1,15 +1,40 @@
 <!Doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="main_layout :: head"></head>
 <body>
-<div><a href="/getTasks">GET TASKS</a></div>
-<div><a href="/createTask">CREATE TASK</a></div>
-<div><a href="/deleteTask">DELETE TASK</a></div>
+<div th:insert="main_layout::navbar"></div>
+<a href="/createTask">CREATE TASK</a>
+<div class="container" sec:authorize="isAuthenticated()" th:action="@{/getTasks}"{>
+    <div class="row">
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>TASK NAME : </th>
+                    <th>DESCRIPTION : </th>
+                    <th>USERNAME : </th>
+                    <th>TASK ID : </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:block th:each="task :${taskList}">
+                    <td th:text = "${task.task_name}"></td>
+                    <td th:text = "${task.description}"></td>
+                    <td th:text = "${task.users.username}"></td>
+                    <td th:text = "${task.id}"></td>
+                    <td><a th:href="@{/update/{id}(id=${task.id})}">UPDATE TASK</a></td>
+                    <td><a th:href="@{/deleteTask/{id}(id=${task.id})}">DELETE TASK</a> </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div align="center">
+        <a th:href="@{/home_page}">Back to Home Page</a>
+    </div>
+</div>
+
 </body>
-<div align="center">
-    <a th:href="@{/home_page}">Back to Home Page</a>
+
 </div>
 </html>

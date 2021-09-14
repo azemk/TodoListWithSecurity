@@ -6,37 +6,7 @@
     <title>AllUsers</title>
 </head>
 <body>
-<div class="container" sec:authorize="isAuthenticated()">
-    <div class="row">
-        <div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID : </th>
-                    <th>USERNAME : </th>
-                    <th>PASSWORD : </th>
-                    <th>ACTIVE : </th>
-                    <th>ROLE ID : </th>
-                    <th>ROLE NAME : </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:block th:each="user :${usersList}">
-                    <td th:text = "${user.usersId}"></td>
-                    <td th:text = "${user.username}"></td>
-                    <td th:text = "${user.password}"></td>
-                    <td th:text = "${user.enabled}"></td>
-                    <th:block th:each = "role :${user.rolesList}">
-                        <td th:text="${role.rolesId}"></td>
-                        <td th:text="${role.name}"></td>
-                    </th:block>
-                    <td sec:authorize="hasAuthority('ADMIN')">UPDATE USER</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+
 <div align="center">
     <a th:href="@{/home_page}">Back to Home Page</a>
 </div>

@@ -1,7 +1,9 @@
 package com.example.TodoListWithSecurity.controller;
 
 import com.example.TodoListWithSecurity.dto.UserRequestDto;
+import com.example.TodoListWithSecurity.model.Roles;
 import com.example.TodoListWithSecurity.model.Users;
+import com.example.TodoListWithSecurity.repository.RolesRepository;
 import com.example.TodoListWithSecurity.repository.UserRepository;
 import com.example.TodoListWithSecurity.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.jws.WebParam;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class UserController {
     UserService userService;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RolesRepository rolesRepository;
 
     BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -78,9 +84,6 @@ public class UserController {
     }
 
 
-
-
-
     @GetMapping("/getUsers")
     public String findAll(Model model){
         Iterable<Users> usersIterable = userService.findAll();
@@ -97,5 +100,30 @@ public class UserController {
         userService.deleteByUsername(username);
         return "delete_viewpage";
     }
+
+
+    @GetMapping("/updateUser/{id}")
+    public String updateForm(@PathVariable("id") Long id , Model model){
+        Users user = userRepository.findUsersByUsersId(id);
+        model.addAttribute("user",user);
+        return "update_user";
+    }
+
+    @PostMapping("/updateUser/{id}")
+    public String update(@ModelAttribute("user") Users users , @PathVariable("id") Long id  ){
+        try{
+            users.setUsersId(id);
+            userService.update(users);
+            return "update_user";
+        }catch (Exception ex){
+            return ex.getMessage();
+        }
+
+
+    }
+
+
+
+
 
 }

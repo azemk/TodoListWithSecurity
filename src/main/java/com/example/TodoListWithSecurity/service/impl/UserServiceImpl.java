@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto create(UserRequestDto userRequestDto) {
-        Roles role  = rolesRepository.findRolesByName("USER");
+        Roles role  = rolesRepository.findRoleByName("USER");
         Users user = usersRepository.findUsersByUsername(userRequestDto.getUsername());
         if(user != null){
             throw new CommonException("User with this username already exists !");
@@ -58,6 +59,23 @@ public class UserServiceImpl implements UserService{
 
         }else {
             usersRepository.deleteById(users.getUsersId());
+        }
+    }
+
+    @Override
+    public Users update(Users users) {
+        Roles role  = rolesRepository.findRoleByName("USER");
+        Users updateUser = usersRepository.findUsersByUsersId(users.getUsersId());
+        if(updateUser!=null) {
+            updateUser.setUsername(users.getUsername());
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            updateUser.setPassword(encoder.encode(users.getPassword()));
+            updateUser.setEnabled(true);
+            updateUser.setRolesList(Collections.singletonList(role));
+            usersRepository.save(updateUser);
+            return updateUser;
+        }else{
+            throw new CommonException("User does not exist!");
         }
     }
 }

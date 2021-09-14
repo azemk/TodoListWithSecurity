@@ -4,17 +4,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 </head>
-<body>
-<h3>Create new user : </h3>
-<form method="POST" th:action="@{/register}" th:object="${user}">
-    <label>Username : </label>
-    <input type="text" class="form-control" placeholder="Username" required th:field="*{username}"/>
-    <label>Password : </label>
-    <input type="password" class="form-control" placeholder="Password" required th:field="*{password}"/>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+<body style="background-color: darkcyan">
+<h3 align="center" style="padding-right: 500px;color:white ; font-family: 'DejaVu Math TeX Gyre';font-size: 22px;font-weight: bold"> Create new user : </h3>
+<div class="container" >
+    <div class = "col-md-6 .col-md-offset-3">
+        <form method="POST" th:action="@{/register}" th:object="${user}">
+            <label>Username : </label>
+            <input type="text" class="form-control" placeholder="Username" required th:field="*{username}"/>
+            <label style="margin-top: 30px;">Password : </label>
+            <input type="password" class="form-control" placeholder="Password" required th:field="*{password}"/>
+           <div>
+               <button type="submit" class="btn btn-primary" style="margin-top: 30px;">Save</button>
+           </div>
+        </form>
+    </div>
+</div>
+
+
+
 <div align="center">
-    <a th:href="@{/}">Back to Home Page</a>
+    <a th:href="@{/}" style="padding-right: 500px; color:white;font-family: 'DejaVu Math TeX Gyre';font-size: 14px;">Back to Home Page</a>
 </div>
 </body>
 </html>

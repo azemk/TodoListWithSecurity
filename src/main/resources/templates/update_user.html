@@ -1,0 +1,11 @@
+<!Doctype html>
+<html>
+<head></head>
+<body>
+<form th:action="@{/updateUser/{id}(id=${user.usersId})}" th:method="post" th:object="${user}">
+    <input type="text" th:field="${user.username}">
+    <input type="text" th:field="${user.password}">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

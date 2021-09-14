@@ -2,6 +2,7 @@ package com.example.TodoListWithSecurity.security;
 
 
 import com.example.TodoListWithSecurity.service.impl.UserDetailsServiceImpl;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -46,7 +47,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/hello","/","/home").permitAll()
                 .antMatchers(HttpMethod.GET,"/getUsers").hasAuthority("ADMIN")
                 .antMatchers("/register").permitAll()
                 .antMatchers("/create").permitAll()
@@ -73,6 +73,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and().csrf().disable();
 
+    }
+
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
     }
 
 }
